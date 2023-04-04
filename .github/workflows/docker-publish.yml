@@ -25,3 +25,18 @@ jobs:
       with:
         push: true
         tags: anaosnia/express-app:latest
+  
+  
+  publish-huggingface:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to huggingface
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_USER: ${{ vars.HF_USERNAME }}
+        run: git push --force https://$HF_USER:$HF_TOKEN@huggingface.co/spaces/$HF_USER/express-app master:main 
